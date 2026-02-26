@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Users, Brain, Shield, Wifi, Gamepad2, Cog } from 'lucide-react';
 import { scrollTo } from '../smoothScroll';
+import MagneticButton from './MagneticButton';
 
 /* ── Scramble Text Effect ─────────────────── */
 const WORDS = ['Intelligent', 'Scalable', 'Secure', 'Innovative', 'Autonomous'];
@@ -179,18 +180,18 @@ const Hero = () => {
           transition={{ duration: 0.6, delay: 0.55 }}
           className="hero-ctas"
         >
-          <button
+          <MagneticButton
             onClick={() => scrollTo('#projects')}
             className="btn btn-primary"
           >
             View Projects <ArrowRight size={18} />
-          </button>
-          <button
+          </MagneticButton>
+          <MagneticButton
             onClick={() => scrollTo('#team')}
             className="btn btn-secondary"
           >
             <Users size={18} /> Meet the Team
-          </button>
+          </MagneticButton>
         </motion.div>
 
         {/* Stats */}

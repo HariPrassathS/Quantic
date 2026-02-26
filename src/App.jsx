@@ -7,6 +7,7 @@ import CustomCursor from './components/CustomCursor';
 import ScrollProgress from './components/ScrollProgress';
 import Marquee from './components/Marquee';
 import BackToTop from './components/BackToTop';
+import CommandPalette from './components/CommandPalette';
 import { initLenis, destroyLenis } from './smoothScroll';
 
 /* Lazy load below-fold sections for faster initial paint */
@@ -122,6 +123,7 @@ function App() {
             <Footer />
           </Suspense>
           <BackToTop />
+          <CommandPalette />
         </div>
       )}
     </>

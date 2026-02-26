@@ -1,6 +1,7 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
+import ProjectModal from './ProjectModal';
 
 const allProjects = [
   // AI
@@ -276,6 +277,8 @@ const categories = ['All', 'AI', 'Cybersecurity', 'IoT', 'Game Development', 'Fu
 
 const Projects = () => {
   const [activeFilter, setActiveFilter] = useState('All');
+  const [modalProject, setModalProject] = useState(null);
+  const closeModal = useCallback(() => setModalProject(null), []);
 
   const filteredProjects = useMemo(
     () => activeFilter === 'All' ? allProjects : allProjects.filter((p) => p.category === activeFilter),
@@ -353,7 +356,8 @@ const Projects = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.25 }}
-                className="glass-card tilt-card"
+                className="glass-card tilt-card project-card-clickable"
+                onClick={() => setModalProject(project)}
                 style={{
                   display: 'flex',
                   flexDirection: 'column',
@@ -438,6 +442,8 @@ const Projects = () => {
           </AnimatePresence>
         </motion.div>
       </div>
+
+      <ProjectModal project={modalProject} onClose={closeModal} />
 
       <style>{`
         @media (max-width: 480px) {
