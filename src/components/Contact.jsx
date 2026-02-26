@@ -2,19 +2,50 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MessageSquare, Phone, Send, Github, Instagram } from 'lucide-react';
 
+const WEB3FORMS_KEY = '3007764c-530e-453a-aaf9-88192f23537a';
+
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 4000);
-    setFormData({ name: '', email: '', subject: '', message: '' });
+    setSending(true);
+    setError('');
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          access_key: WEB3FORMS_KEY,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        setSubmitted(true);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+        setTimeout(() => setSubmitted(false), 5000);
+      } else {
+        setError(data.message || 'Something went wrong. Please try again.');
+      }
+    } catch {
+      setError('Network error. Please check your connection and try again.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -228,6 +259,12 @@ const Contact = () => {
               </div>
             ) : (
               <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <input type="hidden" name="access_key" value={WEB3FORMS_KEY} />
+                {error && (
+                  <div style={{ padding: '12px 16px', borderRadius: 'var(--radius-md)', background: 'rgba(244, 63, 94, 0.08)', border: '1px solid rgba(244, 63, 94, 0.2)', color: 'var(--accent-rose)', fontSize: '0.85rem' }}>
+                    {error}
+                  </div>
+                )}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
                   <input
                     type="text"
@@ -270,9 +307,10 @@ const Contact = () => {
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  style={{ width: '100%', padding: '14px', fontSize: '0.95rem' }}
+                  disabled={sending}
+                  style={{ width: '100%', padding: '14px', fontSize: '0.95rem', opacity: sending ? 0.7 : 1, cursor: sending ? 'not-allowed' : 'pointer' }}
                 >
-                  Send Message <Send size={18} />
+                  {sending ? 'Sending...' : 'Send Message'} {!sending && <Send size={18} />}
                 </button>
               </form>
             )}
