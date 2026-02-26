@@ -25,9 +25,12 @@ const Contact = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           access_key: WEB3FORMS_KEY,
+          from_name: formData.name,
+          replyto: formData.email,
+          subject: `New Inquiry: ${formData.subject}`,
           name: formData.name,
           email: formData.email,
-          subject: formData.subject,
+          Subject: formData.subject,
           message: formData.message,
         }),
       });
