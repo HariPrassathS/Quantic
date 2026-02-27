@@ -159,9 +159,9 @@ const Preloader = ({ onComplete }) => {
                 <motion.div
                   className="cine-vslash"
                   initial={{ scaleY: 0, opacity: 0 }}
-                  animate={{ scaleY: 1, opacity: [0, 1, 0.9, 0] }}
+                  animate={{ scaleY: 1, opacity: [0, 0.6, 0.4, 0] }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
                 />
                 {/* Afterglow */}
                 <motion.div
@@ -175,14 +175,14 @@ const Preloader = ({ onComplete }) => {
             )}
           </AnimatePresence>
 
-          {/* ─── Q Impact Flash (Phase 3) ─── */}
+          {/* ─── Q Impact Bloom (Phase 3) — soft blue, no white flash ─── */}
           <AnimatePresence>
             {phase >= 3 && phase < 4 && (
               <motion.div
                 className="cine-impact-flash"
                 initial={{ opacity: 0 }}
-                animate={{ opacity: [0, 0.7, 0] }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
+                animate={{ opacity: [0, 0.3, 0] }}
+                transition={{ duration: 0.45, ease: 'easeOut' }}
               />
             )}
           </AnimatePresence>
@@ -257,12 +257,12 @@ const Preloader = ({ onComplete }) => {
                         >
                           LABS
                         </motion.span>
-                        {/* Lens Flare */}
+                        {/* Lens Flare — softened bloom */}
                         <motion.div
                           className="cine-lens-flare"
                           initial={{ opacity: 0, scale: 0 }}
-                          animate={{ opacity: [0, 1, 0.3, 0], scale: [0.3, 1.8, 2.5, 3] }}
-                          transition={{ duration: 1, ease: 'easeOut' }}
+                          animate={{ opacity: [0, 0.5, 0.15, 0], scale: [0.3, 1.5, 2, 2.5] }}
+                          transition={{ duration: 1.2, ease: 'easeOut' }}
                         />
                         {/* Particle Burst */}
                         {burstParticles.map((bp) => (
@@ -327,21 +327,21 @@ const Preloader = ({ onComplete }) => {
             </AnimatePresence>
           </div>
 
-          {/* ─── Exit Flash + Wipe (Phase 7) ─── */}
+          {/* ─── Exit Bloom + Wipe (Phase 7) — smooth fade, no white blast ─── */}
           <AnimatePresence>
             {phase >= 7 && (
               <>
                 <motion.div
                   className="cine-exit-flash"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: [0, 0.9, 0] }}
-                  transition={{ duration: 0.35, ease: 'easeOut' }}
+                  animate={{ opacity: [0, 0.25, 0] }}
+                  transition={{ duration: 0.5, ease: 'easeOut' }}
                 />
                 <motion.div
                   className="cine-wipe"
                   initial={{ x: '-110%' }}
                   animate={{ x: '110%' }}
-                  transition={{ duration: 0.5, delay: 0.1, ease: [0.76, 0, 0.24, 1] }}
+                  transition={{ duration: 0.55, delay: 0.1, ease: [0.76, 0, 0.24, 1] }}
                 />
               </>
             )}
